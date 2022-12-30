@@ -1,115 +1,180 @@
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MaterialApp(
+    home: HomeScreen(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Player {
+  String name;
+  bool drinking = true;
 
-  // This widget is the root of your application.
+  Player(this.name);
+
+}
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<Player> players = [];
+
+
+  final textController = TextEditingController();
+  int? playerIndex;
+  IconData buttonIcon = Icons.add;
+
+
+  late FToast fToast;
+
+  @override
+  void initState() {
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
+  }
+
+  _showToast(String text) {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.redAccent,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.close),
+          const SizedBox(
+            width: 12.0,
+          ),
+          Text(text),
+        ],
+      ),
+    );
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 2),
     );
   }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  _removeAllQueuedToasts() {
+    fToast.removeQueuedCustomToasts();
+  }
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  Widget _cardItem(index) {
+    return Card(
+        child: ListTile(
+          title: Text(players[index].name),
+          trailing: Checkbox(
+            value: players[index].drinking,
+            onChanged: (bool? value) {
+              setState(() {
+                players[index].drinking = value!;
+              });
+            },
+          ),
+          onTap: () {
+            playerIndex = index;
+            setState(() {
+              textController.text = players[index].name;
+              buttonIcon = Icons.save;
+            });
+          },
+          onLongPress: () {
+            playerIndex = null;
+            buttonIcon = Icons.add;
+            setState(() {
+              players.removeAt(index);
+            });
+          },
+        )
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+        title: Row(
+          children: [
+            Expanded(
+                child: TextField(
+                  controller: textController,
+                )
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            ElevatedButton(
+                child: Icon(buttonIcon),
+                onPressed: () {
+                  if (textController.text.isEmpty ||
+                      players.firstWhereOrNull((element) => element.name ==
+                          textController.text) != null) {
+                    _removeAllQueuedToasts();
+                    _showToast("le nom d'un joueur non existant est requis");
+                  }
+                  else {
+                    setState(() {
+                      if (playerIndex != null) {
+                        players[playerIndex!].name = textController.text;
+                        playerIndex = null;
+                        buttonIcon = Icons.add;
+                      }
+                      else {
+                        players.add(Player(textController.text));
+                      }
+                      textController.clear();
+                    });
+                  }
+                }
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: ListView.builder(
+        itemCount: players.length,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            return Column(
+              children: [
+                Container(
+                  color: Colors.amber,
+                  child: const ListTile(
+                    title: Text("Name"),
+                    trailing: Text("Drinking"),
+                  ),
+                ),
+                _cardItem(index)
+              ],
+            );
+          }
+          return _cardItem(index);
+        },
+      ),
+      bottomNavigationBar: Container(
+        height: 60,
+        color: Colors.purple,
+        child: InkWell(
+            onTap: () {
+              if (players.length < 2) {
+                _removeAllQueuedToasts();
+                _showToast("Il faut être au moins 2 a jouer");
+              }
+              else {
+                print("TODO");
+              }
+            },
+            child: const Center(child: Icon(Icons.play_arrow))
+        ),
+      ),
     );
   }
 }
