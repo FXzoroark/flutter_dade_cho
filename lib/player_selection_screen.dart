@@ -5,6 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter_dade_cho/player.dart';
 
+import 'game_screen.dart';
+
 class PlayerSelectionScreen extends StatefulWidget {
   const PlayerSelectionScreen({Key? key}) : super(key: key);
 
@@ -13,7 +15,10 @@ class PlayerSelectionScreen extends StatefulWidget {
 }
 
 class _PlayerSelectionScreen extends State<PlayerSelectionScreen> {
-  List<Player> players = [];
+  List<Player> players = [
+    Player("toto"), //A ENLEVER
+    Player("titi")
+  ];
 
 
   final textController = TextEditingController();
@@ -37,7 +42,7 @@ class _PlayerSelectionScreen extends State<PlayerSelectionScreen> {
         msg:text,
       ),
       gravity: ToastGravity.BOTTOM,
-      toastDuration: const Duration(seconds: 5),
+      toastDuration: const Duration(seconds: 3),
     );
   }
 
@@ -143,7 +148,10 @@ class _PlayerSelectionScreen extends State<PlayerSelectionScreen> {
                 _showToast("Il faut être au moins 2 a jouer");
               }
               else {
-                print("TODO");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => GameScreen(players: players)),
+                );
               }
             },
             child: const Center(child: Icon(Icons.play_arrow))
