@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_dade_cho/toast.dart';
+import 'package:flutter_dade_cho/models/Player.dart';
+import 'package:flutter_dade_cho/utils/toast.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:flutter_dade_cho/player.dart';
 
 import 'game_screen.dart';
 
@@ -148,6 +148,7 @@ class _PlayerSelectionScreen extends State<PlayerSelectionScreen> {
                 _showToast("Il faut être au moins 2 a jouer");
               }
               else {
+                _removeAllQueuedToasts();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => GameScreen(players: players)),

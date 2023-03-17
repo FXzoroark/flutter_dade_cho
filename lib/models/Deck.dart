@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:flutter_dade_cho/utils/StorageManager.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'CardGame.dart';
@@ -10,7 +11,7 @@ class Deck {
   late final String theme;
   final allCardsList = [];
   final gameCardsQueue = Queue<CardGame>();
-  final size;
+  final int size;
 
   Deck(this.size);
 
@@ -21,31 +22,15 @@ class Deck {
   }
 
   Future<void> makeDeck() async {
+    Map data = await StorageManager.readJson('assets/je_n_ai_jamais.json');
 
-    readJson(await rootBundle.loadString('assets/je_n_ai_jamais.json'));
-    makeGameCardsQueue();
-  }
-
-  void readJson(String jsonString){
-    Map data = jsonDecode(jsonString);
-    // theme = data["catégorie-nom-slogan"]["catégorie"] + ": " + data["catégorie-nom-slogan"]["nom"];
-    // for (var difficulte in data["quizz"]["fr"]){
-    //
-    // }
-    // queue.add(new Card())
     data["game"].forEach((type, value) {
       var quantity = value["quantity"];
       for (var question in value["questions"]){
         allCardsList.add(CardGame(question, quantity));
       }
     });
-
-    // for(var type in data["game"]){
-    //   var quantity = data["game"][type]["quantity"];
-    //   for (var question in data["game"][type]["questions"]){
-    //     allCardsList.add(CardGame(question, quantity));
-    //   }
-    // }
+    makeGameCardsQueue();
   }
 
   void makeGameCardsQueue(){
@@ -58,5 +43,9 @@ class Deck {
 
   CardGame playCard(){
     return gameCardsQueue.removeFirst();
+  }
+
+  bool isEmpty(){
+    return gameCardsQueue.isEmpty;
   }
 }
