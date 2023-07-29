@@ -69,12 +69,18 @@ class _GameScreen extends State<GameScreen> {
 
     return Scaffold(
         appBar: AppBar(
-            title: Column(
-          children: [
-            Text("${deck.size - deck.gameCardsQueue.length} /  ${deck.size}"),
-            Text("${currentCard.quantity} 🍺")
-          ],
-        ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    Text("${deck.size - deck.gameCardsQueue.length} /  ${deck.size}"),
+                    Text("${currentCard.quantity} 🍺"),
+                  ],
+                ),
+                Text(currentCard.type)
+              ],
+            ),
             actions: const [
               SettingsWidget()
           ],

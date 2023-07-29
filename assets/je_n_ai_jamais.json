@@ -1,9 +1,16 @@
 {
   "game": {
-    "easy": {
-      "quantity": 1,
+    "normal": {
+      "quantityMin": 1,
+      "quantityMax": 3,
       "questions": [
-        "Je n'ai jamais été en Italie (ou n'importe quel pays de votre choix).",
+        "Je n'ai jamais été en Italie.",
+        "Je n'ai jamais été en Allemagne.",
+        "Je n'ai jamais été en Suisse.",
+        "Je n'ai jamais été en Espagne.",
+        "Je n'ai jamais été aux Royaumes unis.",
+        "Je n'ai jamais été en Europe.",
+        "Je n'ai jamais été au Val d'Ajol.",
         "Je n'ai jamais chanté sous la douche.",
         "Je ne me suis jamais cassé un os.",
         "Je n'ai jamais travaillé.",
@@ -47,17 +54,10 @@
         "Je n'ai jamais fait un sport d'équipe.",
         "Je n'ai jamais écouté de rap.",
         "Je n'ai jamais vu de la danse contemporaine.",
-        "Je n'ai jamais été dans un autre pays que le mien.",
         "Je n'ai jamais été à la capitale de mon pays.",
         "Je n'ai jamais vécu tout seul.",
-        "Je n'ai jamais cuisiné.",
         "Je n'ai jamais vu de vache.",
-        "Je n'ai jamais cru en Dieu."
-      ]
-    },
-    "medium": {
-      "quantity": 2,
-      "questions": [
+        "Je n'ai jamais cru en Dieu.",
         "Je n'ai jamais mangé au McDo.",
         "Je n'ai jamais gâché les vacances de quelqu'un.",
         "Je n'ai jamais pleuré ni supplié pour qu'on ne me mette pas une amende ou qu'on ne me punisse pas.",
@@ -92,7 +92,6 @@
         "Je n'ai jamais coupé mes propres cheveux.",
         "Je n'ai jamais cherché mon nom sur Google.",
         "Je n'ai jamais lu la bible.",
-        "Je n'ai jamais vu la mer.",
         "Je n'ai jamais eu de chien.",
         "Je n'ai jamais eu de chat.",
         "Je n'ai jamais rencontré quelqu'un de célèbre.",
@@ -105,17 +104,17 @@
         "Je n'ai jamais conduit.",
         "Je n'ai jamais été sur un bateau.",
         "Je n'ai jamais été sur TikTok.",
-        "Je n'ai jamais léché mon coude avec ma langue.",
-        "Je n'ai jamais fait de resto basket.",
-        "Je n'ai jamais bouché les toilettes sans rien dire à personne."
+        "Je n'ai jamais léché mon coude avec ma langue."
       ]
     },
     "funny": {
-      "quantity": 3,
+      "quantityMin": 3,
+      "quantityMax": 5,
       "questions": [
+        "Je n'ai jamais bouché les toilettes sans rien dire à personne.",
         "Je n'ai jamais perdu mon travail parce que j'avais trop fait la fête la veille ou que j'avais trop bu.",
         "Je ne suis jamais allé(e) au travail bourré.",
-        "Je n'ai jamais été amoureuse -eux.",
+        "Je n'ai jamais été amoureuse/eux.",
         "Je n'ai jamais rien vécu de paranormal.",
         "Je n'ai jamais couché avec un inconnu.",
         "Je n'ai jamais pris de drogues.",
@@ -166,7 +165,8 @@
       ]
     },
     "hot": {
-      "quantity": 4,
+      "quantityMin": 5,
+      "quantityMax": 7,
       "questions": [
         "Je ne me suis jamais trompé de prénom pendant l'amour.",
         "Je n'ai jamais été avec une personne de ma famille.",
@@ -246,7 +246,8 @@
       ]
     },
     "trash": {
-      "quantity": 5,
+      "quantityMin": 7,
+      "quantityMax": 9,
       "questions": [
         "Je n'ai jamais tué d'animaux.",
         "Je n'ai jamais vomi sur quelqu'un.",

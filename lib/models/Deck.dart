@@ -1,6 +1,8 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dade_cho/utils/StorageManager.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,9 +27,10 @@ class Deck {
     Map data = await StorageManager.readJson('assets/je_n_ai_jamais.json');
 
     data["game"].forEach((type, value) {
-      var quantity = value["quantity"];
+      var quantityMin = value["quantityMin"];
+      var quantityMax = value["quantityMax"];
       for (var question in value["questions"]){
-        allCardsList.add(CardGame(question, quantity));
+        allCardsList.add(CardGame(question, quantityMin + Random().nextInt(quantityMax+1 - quantityMin), type));
       }
     });
     makeGameCardsQueue();
