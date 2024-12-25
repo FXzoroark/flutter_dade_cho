@@ -10,7 +10,7 @@ class AppTheme {
       scaffoldBackgroundColor: Colors.blue[600],
       cardColor: Colors.lightBlue,
       textTheme: TextTheme(
-          bodyText1: GoogleFonts.montserrat(
+          bodySmall: GoogleFonts.montserrat(
             color: Colors.black87,
             fontSize: 30
       )));
@@ -18,7 +18,7 @@ class AppTheme {
   static ThemeData darkTheme = ThemeData(
       brightness: Brightness.dark,
       textTheme: TextTheme(
-        bodyText1: GoogleFonts.montserrat(
+          bodySmall: GoogleFonts.montserrat(
           color: Colors.white70,
           fontSize: 30
         )

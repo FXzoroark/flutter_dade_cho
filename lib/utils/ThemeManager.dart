@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_dade_cho/utils/AppTheme.dart';
@@ -9,7 +10,9 @@ class ThemeNotifier with ChangeNotifier {
 
   ThemeNotifier() {
     StorageManager.readPref('themeMode').then((value) {
-      print('value read from storage: $value');
+      if (kDebugMode) {
+        print('value read from storage: $value');
+      }
       //if not stored (first time opening app)
       if(value == null){
         //looking at system pref and saving it
@@ -19,7 +22,6 @@ class ThemeNotifier with ChangeNotifier {
         if (value == 'light') {
           _themeData = AppTheme.lightTheme;
         } else {
-          print('setting dark theme');
           _themeData = AppTheme.darkTheme;
         }
       }

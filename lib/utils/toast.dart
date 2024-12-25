@@ -9,11 +9,11 @@ class ToastWrapper extends StatefulWidget {
   final Color? color;
 
   const ToastWrapper({
-    Key? key,
+    super.key,
     required this.msg,
     this.icon,
     this.color,
-  }) : super(key: key);
+  });
 
   @override
   State<ToastWrapper> createState() => _ToastWrapperState();
@@ -89,7 +89,14 @@ class _ToastWrapperState extends State<ToastWrapper>
                     const SizedBox(
                       width: 12.0,
                     ),
-                    Text(widget.msg, style: TextStyle(color: color)),
+                    Flexible(
+                      child:
+                        Text(
+                            widget.msg,
+                            style: TextStyle(color: color),
+                            softWrap: true
+                        ),
+                    )
                   ],
                 ),
               ),

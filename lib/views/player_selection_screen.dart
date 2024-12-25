@@ -2,23 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_dade_cho/models/Player.dart';
 import 'package:flutter_dade_cho/utils/toast.dart';
+import 'package:flutter_dade_cho/views/game_selection_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 
-import 'game_screen.dart';
-
 class PlayerSelectionScreen extends StatefulWidget {
-  const PlayerSelectionScreen({Key? key}) : super(key: key);
+  const PlayerSelectionScreen({super.key});
 
   @override
   State<PlayerSelectionScreen> createState() => _PlayerSelectionScreen();
 }
 
 class _PlayerSelectionScreen extends State<PlayerSelectionScreen> {
-  List<Player> players = [
-    Player("toto"), //A ENLEVER
-    Player("titi")
-  ];
+  List<Player> players = [];
 
 
   final textController = TextEditingController();
@@ -98,7 +94,7 @@ class _PlayerSelectionScreen extends State<PlayerSelectionScreen> {
                       players.firstWhereOrNull((element) => element.name ==
                           textController.text) != null) {
                     _removeAllQueuedToasts();
-                    _showToast("le nom d'un joueur non existant est requis");
+                    _showToast("Le nom d'un joueur non existant est requis");
                   }
                   else {
                     setState(() {
@@ -125,7 +121,7 @@ class _PlayerSelectionScreen extends State<PlayerSelectionScreen> {
             return Column(
               children: [
                 Container(
-                  color: Colors.amber,
+                  color: Colors.grey,
                   child: const ListTile(
                     title: Text("Name"),
                     trailing: Text("Drinking"),
@@ -145,13 +141,13 @@ class _PlayerSelectionScreen extends State<PlayerSelectionScreen> {
             onTap: () {
               if (players.length < 2) {
                 _removeAllQueuedToasts();
-                _showToast("Il faut être au moins 2 a jouer");
+                _showToast("Il faut être au moins 2 pour jouer");
               }
               else {
                 _removeAllQueuedToasts();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => GameScreen(players: players)),
+                  MaterialPageRoute(builder: (context) => GameSelectionScreen(players: players)),
                 );
               }
             },
